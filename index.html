@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco-Dash-Monitor | Green Energy Usage Monitor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content container">
+        <div class="logo">
+          <span class="logo-icon">🌿</span>
+          <h1>Eco-Dash-Monitor</h1>
+        </div>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#dashboard" class="active">Dashboard</a></li>
+            <li><a href="#input-form">Input Data</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a href="#tips">Green Tips</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+            <span class="toggle-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h2>Monitor Your Green Energy Usage</h2>
+            <p>Track, optimize, and reduce your carbon footprint with our comprehensive energy dashboard.</p>
+            <button class="btn btn-primary" id="getStartedBtn">Get Started</button>
+          </div>
+          <div class="hero-image">
+            <div class="eco-animation">
+              <div class="earth"></div>
+              <div class="leaf leaf-1"></div>
+              <div class="leaf leaf-2"></div>
+              <div class="leaf leaf-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Input Form Section -->
+      <section id="input-form" class="section input-form-section hidden">
+        <div class="container">
+          <div class="section-header">
+            <h2>Enter Your Energy Data</h2>
+            <p>Please provide your energy usage details to generate your personalized dashboard.</p>
+          </div>
+          
+          <div class="glass-card">
+            <form id="energyDataForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="userName">Full Name</label>
+                  <input type="text" id="userName" required placeholder="Enter your name">
+                </div>
+                
+                <div class="form-group">
+                  <label for="electricBill">Monthly Electricity Bill (₹)</label>
+                  <input type="number" id="electricBill" required min="0" placeholder="Enter amount in ₹">
+                </div>
+                
+                <div class="form-group">
+                  <label for="monthlyUsage">Monthly Electricity Usage (kWh)</label>
+                  <input type="number" id="monthlyUsage" required min="0" placeholder="Enter usage in kWh">
+                </div>
+                
+                <div class="form-group">
+                  <label for="houseSize">House Size (sq. ft)</label>
+                  <input type="number" id="houseSize" required min="0" placeholder="Enter your house size">
+                </div>
+                
+                <div class="form-group">
+                  <label for="occupants">Number of Occupants</label>
+                  <input type="number" id="occupants" required min="1" placeholder="Enter number of people">
+                </div>
+                
+                <div class="form-group">
+                  <label for="renewablePercentage">Renewable Energy Usage (%)</label>
+                  <input type="number" id="renewablePercentage" required min="0" max="100" placeholder="Enter percentage">
+                </div>
+                
+                <div class="form-group">
+                  <label for="applianceCount">Number of Major Appliances</label>
+                  <input type="number" id="applianceCount" required min="0" placeholder="Enter number of appliances">
+                </div>
+                
+                <div class="form-group">
+                  <label for="acUsage">Daily AC Usage (hours)</label>
+                  <input type="number" id="acUsage" required min="0" max="24" placeholder="Enter hours per day">
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Generate Dashboard</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="section dashboard-section hidden">
+        <div class="container">
+          <div class="section-header">
+            <h2>Your Energy Dashboard</h2>
+            <p>Here's a comprehensive view of your energy consumption patterns.</p>
+            <div class="dashboard-actions">
+              <div class="view-toggle">
+                <button class="btn btn-toggle active" data-view="daily">Daily</button>
+                <button class="btn btn-toggle" data-view="weekly">Weekly</button>
+                <button class="btn btn-toggle" data-view="monthly">Monthly</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="dashboard-grid">
+            <!-- Energy Usage Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3>Energy Usage</h3>
+                <span class="card-icon">⚡</span>
+              </div>
+              <div class="card-content">
+                <div class="stat-highlight">
+                  <span class="stat-value" id="totalUsage">0</span>
+                  <span class="stat-unit">kWh</span>
+                </div>
+                <div class="stat-detail">
+                  <span class="stat-label">Cost:</span>
+                  <span class="stat-value-secondary" id="totalCost">₹0</span>
+                </div>
+                <div class="canvas-container">
+                  <canvas id="usageChart" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Green Score Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3>Eco Rating</h3>
+                <span class="card-icon">🌱</span>
+              </div>
+              <div class="card-content">
+                <div class="eco-score-container">
+                  <div class="eco-score-gauge" id="ecoScoreGauge">
+                    <div class="gauge-value">0</div>
+                    <div class="gauge-label">GREEN SCORE</div>
+                  </div>
+                </div>
+                <div class="badges-container" id="badgesContainer">
+                  <!-- Badges will be dynamically added here -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Energy Sources Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3>Energy Sources</h3>
+                <span class="card-icon">🔋</span>
+              </div>
+              <div class="card-content">
+                <div class="canvas-container">
+                  <canvas id="sourcesChart" height="200"></canvas>
+                </div>
+                <div class="stat-detail">
+                  <span class="stat-label">CO₂ Saved:</span>
+                  <span class="stat-value-secondary" id="co2Saved">0 kg</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Consumption Trends Card -->
+            <div class="glass-card wide-card">
+              <div class="card-header">
+                <h3>Consumption Trends</h3>
+                <span class="card-icon">📈</span>
+              </div>
+              <div class="card-content">
+                <div class="canvas-container">
+                  <canvas id="trendsChart" height="250"></canvas>
+                </div>
+                <div class="trend-summary" id="trendSummary">
+                  Your consumption shows a stable pattern.
+                </div>
+              </div>
+            </div>
+            
+            <!-- Green Tips Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3>Green Tips</h3>
+                <span class="card-icon">💡</span>
+              </div>
+              <div class="card-content">
+                <ul class="tips-list" id="tipsList">
+                  <!-- Tips will be generated dynamically -->
+                </ul>
+              </div>
+            </div>
+            
+            <!-- Monthly Report Card -->
+            <div class="glass-card">
+              <div class="card-header">
+                <h3>Monthly Report</h3>
+                <span class="card-icon">📊</span>
+              </div>
+              <div class="card-content">
+                <div class="report-preview">
+                  <div class="report-icon">📄</div>
+                  <div class="report-details">
+                    <h4>May 2025 Summary</h4>
+                    <p>Your complete energy analysis for the month.</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" id="downloadReportBtn">
+                  <span class="btn-icon">📥</span> Download PDF Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="logo footer-logo">
+              <span class="logo-icon">🌿</span>
+              <h2>Eco-Dash-Monitor</h2>
+            </div>
+            <p>Helping you make greener energy choices for a sustainable future.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#dashboard">Dashboard</a></li>
+              <li><a href="#input-form">Input Data</a></li>
+              <li><a href="#reports">Reports</a></li>
+              <li><a href="#tips">Green Tips</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="#">Energy Saving Guide</a></li>
+              <li><a href="#">Renewable Options</a></li>
+              <li><a href="#">Carbon Footprint Calculator</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Contact Us</h3>
+            <ul class="contact-info">
+              <li>📧 support@eco-dash.com</li>
+              <li>📱 +91 98765 43210</li>
+              <li>🌐 www.eco-dash-monitor.com</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 Eco-Dash-Monitor. All rights reserved.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">
+              <span class="social-icon">📘</span>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <span class="social-icon">🐦</span>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <span class="social-icon">📷</span>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <span class="social-icon">🔗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
